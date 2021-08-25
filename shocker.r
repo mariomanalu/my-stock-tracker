@@ -17,28 +17,30 @@ ui <- dashboardPage(
   dashboardSidebar(),
   dashboardBody(
     fluidRow(
-      box (
-        title = "Price chart",
-        plotOutput ("plot", height = 250)
-        ),
-      
-      box (
-        title = "Stocks",
-        selectInput("Tickers", 
-                    "Tickers",
-                    choices = c("AAPL", "SQ"),
-                    selected = "AAPL"
-                    ),
-        textOutput("result")
-      )
+        box(
+          title = "Stock Price Chart",
+          plotOutput ("plot", height = 250)
+          ),
+        
+        box(
+          title = "Stocks",
+          selectInput("Tickers", 
+                      "Tickers",
+                      choices = c("AAPL", "SQ", "TGT", "SPY", "PLTR", "BTC", "DOGE", "ETH", "ETC"),
+                      selected = "AAPL"
+                      )
+        )
+    ),
+    fluidRow(
+        box(
+          tableOutput("table"),
+          width = 8
+        )
     )
   )
 )
 
 server <- function(input, output) {
-  output$result<- renderText({
-    paste("You chose", input$Tickers)
-  })
   output$plot <- renderPlot({
     stock <- tq_get(input$Tickers,
                    from = "2021-01-01",
@@ -49,11 +51,11 @@ server <- function(input, output) {
     geom_line() +
     theme_classic() +
     labs(x = 'Date',
-         y = "Adjusted Price",
-         title = "Apple price chart") +
+         y = "Adjusted Price") +
     scale_y_continuous(breaks = seq(0,300,10))
   })
+  
+  output$table <- renderTable(iris)
 }
 
 shinyApp(ui, server)
-
