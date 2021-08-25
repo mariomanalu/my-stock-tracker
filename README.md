@@ -1,1 +1,1 @@
-# My Stock Tracker in R
+# Shocker: Shiny Stock and Crypto Tracker
