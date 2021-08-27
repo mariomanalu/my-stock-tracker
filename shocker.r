@@ -55,7 +55,9 @@ server <- function(input, output) {
     scale_y_continuous(breaks = seq(0,300,10))
   })
   
-  output$table <- renderTable(iris)
+  output$table <- renderTable({
+    db <- input$Tickers
+  })
 }
 
 shinyApp(ui, server)

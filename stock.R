@@ -1,14 +1,29 @@
 # Stock and Crypto Tracker
 
-# Portfolio
+# Import libraries
+library(tidyquant)
+# Asset class
+setClass(
+  "Asset", 
+  representation(
+    ticker = "character", 
+    quantity = "numeric",
+    average_price = "numeric",
+    current_price = "numeric")
+  )
 
-tab <- as.table(tab)
-tab
+appl <- new(
+  "Asset", 
+  ticker = "AAPL", 
+  quantity = 150, 
+  average_price = 100,
+  current_price <- tq_get("AAPL", to = Sys.Date(), get = "stock.prices")
+  )
 
-tickers <- c("APPL", "SQ")
-current_prices <- c(145, 120)
-quantities <- c(10, 20)
-average_prices <- c(120, 115)
-profits <- (current_prices - average_prices) * quantities
-df <- data.frame(ticker = tickers, current_price = current_prices, profit = profits)
-df
+df <- data.frame(
+  ticker = appl@ticker,
+  quantity = appl@quantity,
+  average_price = appl@average_price,
+  current_price = appl@current_price
+)
+
